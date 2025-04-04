@@ -10,7 +10,8 @@ Enter the message to encrypt.
 QIIX QI FC XLI VSWI FYWLIW XSRMKLX.
 Full encrypted text copied to clipboard.
 
-Caesar Cipher, by Al Sweigart al@inventwithpython.com
+Caesar Cipher, by Al Sweigart al@inventwithpython.comgit branch -M main
+git push -u origin main
 Do you want to (e)ncrypt or (d)ecrypt?
 > d
 Please enter the key (0 to 26) to use.
@@ -59,63 +60,69 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var readline = require("node:readline/promises");
 var node_process_1 = require("node:process");
-function encryptInput(userString, encryptKey) {
-    var newSymbols = new Map();
-    var encryptedString = [];
-    for (var i = 65; i <= 90; i++) {
-        var newNumber = i + encryptKey;
-        if (newNumber > 90) {
-            newNumber = newNumber - 26;
-        }
-        newSymbols[String.fromCharCode(i)] = String.fromCharCode(newNumber);
+var Cipher = /** @class */ (function () {
+    function Cipher() {
     }
-    // console.log(newSymbols);
-    for (var _i = 0, _a = userString.toUpperCase(); _i < _a.length; _i++) {
-        var c = _a[_i];
-        if (newSymbols[c]) {
-            encryptedString.push(newSymbols[c]);
+    Cipher.prototype.encryptInput = function () {
+        var newSymbols = new Map();
+        var encryptedString = [];
+        for (var i = 65; i <= 90; i++) {
+            var newNumber = i + this.key;
+            if (newNumber > 90) {
+                newNumber = newNumber - 26;
+            }
+            newSymbols[String.fromCharCode(i)] = String.fromCharCode(newNumber);
         }
-        else {
-            encryptedString.push(c);
+        // console.log(newSymbols);
+        for (var _i = 0, _a = this.userString.toUpperCase(); _i < _a.length; _i++) {
+            var c = _a[_i];
+            if (newSymbols[c]) {
+                encryptedString.push(newSymbols[c]);
+            }
+            else {
+                encryptedString.push(c);
+            }
         }
-    }
-    return encryptedString.join('');
-}
-function decryptInput(userString, encryptKey) {
-    var newSymbols = new Map();
-    var decryptedString = [];
-    for (var i = 65; i <= 90; i++) {
-        var newNumber = i + encryptKey;
-        if (newNumber > 90) {
-            newNumber = newNumber - 26;
+        return encryptedString.join('');
+    };
+    Cipher.prototype.decryptInput = function () {
+        var newSymbols = new Map();
+        var decryptedString = [];
+        for (var i = 65; i <= 90; i++) {
+            var newNumber = i + this.key;
+            if (newNumber > 90) {
+                newNumber = newNumber - 26;
+            }
+            newSymbols[String.fromCharCode(newNumber)] = String.fromCharCode(i);
         }
-        newSymbols[String.fromCharCode(newNumber)] = String.fromCharCode(i);
-    }
-    for (var _i = 0, _a = userString.toUpperCase(); _i < _a.length; _i++) {
-        var c = _a[_i];
-        if (newSymbols[c]) {
-            decryptedString.push(newSymbols[c]);
+        for (var _i = 0, _a = this.userString.toUpperCase(); _i < _a.length; _i++) {
+            var c = _a[_i];
+            if (newSymbols[c]) {
+                decryptedString.push(newSymbols[c]);
+            }
+            else {
+                decryptedString.push(c);
+            }
         }
-        else {
-            decryptedString.push(c);
-        }
-    }
-    return decryptedString.join('');
-}
+        return decryptedString.join('');
+    };
+    return Cipher;
+}());
 function getInput() {
     return __awaiter(this, void 0, void 0, function () {
-        var rl, readyToExit, answer, _a, enMessage, enKey, deKey, deMessage;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var rl, readyToExit, cipher, answer, _a, _b, userKey, _c, userDKey;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     rl = readline.createInterface({ input: node_process_1.stdin, output: node_process_1.stdout });
                     readyToExit = false;
-                    _b.label = 1;
+                    cipher = new Cipher();
+                    _d.label = 1;
                 case 1:
                     if (!true) return [3 /*break*/, 11];
                     return [4 /*yield*/, rl.question('Do you want to (e)ncrypt or (d)crypt ? ')];
                 case 2:
-                    answer = _b.sent();
+                    answer = _d.sent();
                     _a = answer.toLowerCase();
                     switch (_a) {
                         case 'e': return [3 /*break*/, 3];
@@ -123,21 +130,27 @@ function getInput() {
                         case 'exit': return [3 /*break*/, 9];
                     }
                     return [3 /*break*/, 10];
-                case 3: return [4 /*yield*/, rl.question('Please enter the message to encrypt \n')];
+                case 3:
+                    _b = cipher;
+                    return [4 /*yield*/, rl.question('Please enter the message to encrypt \n')];
                 case 4:
-                    enMessage = _b.sent();
+                    _b.userString = _d.sent();
                     return [4 /*yield*/, rl.question('Please enter the key (0 to 25) to use \n')];
                 case 5:
-                    enKey = _b.sent();
-                    console.log(encryptInput(enMessage, parseInt(enKey)));
+                    userKey = _d.sent();
+                    cipher.key = parseInt(userKey);
+                    console.log(cipher.encryptInput());
                     return [3 /*break*/, 10];
-                case 6: return [4 /*yield*/, rl.question('Please enter the key (0 to 25) to use \n')];
+                case 6:
+                    _c = cipher;
+                    return [4 /*yield*/, rl.question('Please enter the key (0 to 25) to use \n')];
                 case 7:
-                    deKey = _b.sent();
+                    _c.userString = _d.sent();
                     return [4 /*yield*/, rl.question('Please enter the message to dencrypt \n')];
                 case 8:
-                    deMessage = _b.sent();
-                    console.log(decryptInput(deMessage, parseInt(deKey)));
+                    userDKey = _d.sent();
+                    cipher.key = parseInt(userDKey);
+                    console.log(cipher.decryptInput());
                     return [3 /*break*/, 10];
                 case 9:
                     readyToExit = true;
