@@ -1,0 +1,19 @@
+{
+  "name": "typescript-cipher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsc src/cipher.ts && node src/cipher.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.14.0",
+    "process": "^0.11.10",
+    "readline": "^1.3.0",
+    "typescript": "^5.8.2"
+  }
+}
